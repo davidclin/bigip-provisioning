@@ -44,8 +44,8 @@
 - name: Create a web01.internal node             //Creating Node1
     bigip_node:
         server: "{{ inventory_hostname }}"
-        user: "admin"
-        password: "admin"
+        user: "root"
+        password: "{{ password }}"
         host: "192.168.68.140"
         name: "web01.internal"
         validate_certs: False
@@ -54,8 +54,8 @@
 - name: Create a web02.internal node             //Creating Node2
     bigip_node:
         server: "{{ inventory_hostname }}"
-        user: "admin"
-        password: "admin"
+        user: "root"
+        password: "{{ password }}"
         host: "192.168.68.141"
         name: "web02.internal"
         validate_certs: False
@@ -64,8 +64,8 @@
 - name: Create a web-pool                        //Creating a pool
     bigip_pool:
         server: "{{ inventory_hostname }}"
-        user: "admin"
-        password: "admin"
+        user: "{{ username }}"
+        password: "{{ password }}"
         lb_method: "ratio_member"
         monitors: http
         name: "web-pool"
@@ -77,8 +77,8 @@
         description: "HTTP Webserver-1"
         host: "{{ item.host }}"
         name: "{{ item.name }}"
-        user: "admin"
-        password: "admin"
+        user: "{{ username }}"
+        password: "{{ password }}"
         pool: "web-pool"
         port: "80"
         server: "{{ inventory_hostname }}"
@@ -94,8 +94,8 @@
     bigip_virtual_server:
         description: "Secure web application"
         server: "{{ inventory_hostname }}"
-        user: "admin"
-        password: "admin"
+        user: "{{ username }}"
+        password: "{{ password }}"
         name: "https_vs"
         destination: "10.10.20.120"
         port: 443
@@ -111,8 +111,8 @@
     bigip_virtual_server:
         description: "Redirect Virtual server"
         server: "{{ inventory_hostname }}"
-        user: "admin"
-        password: "admin"
+        user: "{{ username }}"
+        password: "{{ password }}"
         name: "http_redirect"
         destination: "10.10.20.120"
         validate_certs: False
