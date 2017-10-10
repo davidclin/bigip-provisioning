@@ -2,7 +2,8 @@
 
 
 # bigip-provisioning
-Ansible role to automate provisioning tasks on a BIG-IP. The role will configure the following
+Ansible role to automate provisioning tasks on a BIG-IP. 
+The role will perform the following
 * Create nodes 
 * Create pool
 * Assign members to pool
