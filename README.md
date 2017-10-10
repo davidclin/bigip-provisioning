@@ -1,11 +1,13 @@
 ## Last updated: 10/9/2017
 
 
-# bigip-onboarding
+# bigip-provisioning
 Ansible role to automate provisioning tasks on a BIG-IP. The role will configure the following
-* task one
-* task two
-* BIG-IP SSH Banner text
+* Create nodes 
+* Create pool
+* Assign members to pool
+* Create a HTTPS virtual server
+* Create a redirect virtual server
 
 ## Requirements
 * This role requires Ansible 2.4
@@ -20,11 +22,10 @@ The variables that can be passed to this role and a brief description about them
 
 ```
 username: admin                                     //BIG-IP username
-password: admin                                     //BIG-IP password
+password: !Cisco123                                 //BIG-IP password
 
-banner_text: "--Welcome to Onboarding BIGIP--"      //Banner when user SSH's into the BIG-IP
 
-hostname: 'ansibleManaged-bigip.local'              //BIG-IP hostname
+
 
 ntp_servers:                                        //NTP servers configured on BIG-IP
  - '172.27.1.1'
