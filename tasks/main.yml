@@ -12,8 +12,8 @@
       - name: 'External'
         tag: '10'
         interface: '1.1'
-      - name: 'Internal
-        tag: '11’
+      - name: 'Internal'
+        tag: '11'
         interface: '1.2'
   delegate_to: localhost
 
