@@ -1,5 +1,3 @@
-## Last Updated: 10/9/2017
-
 
 ## bigip-provisioning 
 Ansible role to automate provisioning tasks on a BIG-IP. 
