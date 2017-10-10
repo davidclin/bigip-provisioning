@@ -1,16 +1,16 @@
-## Last updated: 10/9/2017
+## Last Updated: 10/9/2017
 
 
-# bigip-provisioning (and tags)
+## bigip-provisioning 
 Ansible role to automate provisioning tasks on a BIG-IP. 
 The role will perform the following
-* Configure VLANs                        (vlans)
-* Configure Self-IPs                     (selfips)
-* Create nodes                           (nodes)
-* Create pool                            (pool)
-* Create SNAT pool                       (snatpool)
-* Assign members to pool and SNAT pool   (addtopool)
-* Create a HTTPS virtual server          (virtualserver)
+* Configure VLANs                        (tag: vlans)
+* Configure Self-IPs                     (tag: selfips)
+* Create nodes                           (tag: nodes)
+* Create pool                            (tag: pool)
+* Create SNAT pool                       (tag: snatpool)
+* Assign members to pool and SNAT pool   (tag: addtopool)
+* Create a HTTPS virtual server          (tag: virtualserver)
 
 ## Requirements
 * This role requires Ansible 2.4
