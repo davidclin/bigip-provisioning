@@ -2,7 +2,7 @@
 username: admin
 password: "!Cisco123" 
 
-banner_text: "--------Welcome to Onboarding BIGIP----------"
+banner_text: "--------Welcome to BIGIP----------"
 
 hostname: 'f5-bigip-onecloudinc.com'
 

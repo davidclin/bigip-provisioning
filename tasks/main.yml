@@ -1,124 +1,124 @@
 ---
 - name: Configure VLANs on the BIG-IP
-    bigip_vlan:
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        validate_certs: False
-        name: "{{ item.name }}"
-        tag: "{{ item.tag }}"
-        tagged_interface: "{{ item.interface }}"
-    with_items:
-        - name: 'External'
-          tag: '10'
-          interface: '1.1'
-        - name: 'Internal
-          tag: '11’
-          interface: '1.2'
-    delegate_to: localhost
+  bigip_vlan:
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: False
+      name: "{{ item.name }}"
+      tag: "{{ item.tag }}"
+      tagged_interface: "{{ item.interface }}"
+  with_items:
+      - name: 'External'
+        tag: '10'
+        interface: '1.1'
+      - name: 'Internal
+        tag: '11’
+        interface: '1.2'
+  delegate_to: localhost
 
 - name: Configure SELF-IPs on the BIG-IP
-    bigip_selfip:
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        validate_certs: False
-        name: "{{ item.name }}"
-        address: "{{ item.address }}"
-        netmask: "{{ item.netmask }}"
-        vlan: "{{ item.vlan }}"
-        allow_service: "{{item.allow_service}}"
-    with_items:
-        - name: 'External-SelfIP'
-          address: '10.10.10.10'
-          netmask: '255.255.255.0'
-          vlan: 'External'
-          allow_service: 'default'
-        - name: 'Internal-SelfIP'
-          address: '192.10.10.10'
-          netmask: '255.255.255.0'
-          vlan: 'Internal'
-          allow_service: 'default'
-    delegate_to: localhost
+  bigip_selfip:
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: False
+      name: "{{ item.name }}"
+      address: "{{ item.address }}"
+      netmask: "{{ item.netmask }}"
+      vlan: "{{ item.vlan }}"
+      allow_service: "{{item.allow_service}}"
+  with_items:
+      - name: 'External-SelfIP'
+        address: '10.10.10.10'
+        netmask: '255.255.255.0'
+        vlan: 'External'
+        allow_service: 'default'
+      - name: 'Internal-SelfIP'
+        address: '192.10.10.10'
+        netmask: '255.255.255.0'
+        vlan: 'Internal'
+        allow_service: 'default'
+  delegate_to: localhost
 
 - name: Create a web01.internal node             //Creating Node1
-    bigip_node:
-        server: "{{ inventory_hostname }}"
-        user: "root"
-        password: "{{ password }}"
-        host: "192.168.68.140"
-        name: "web01.internal"
-        validate_certs: False
-        delegate_to: localhost
+  bigip_node:
+      server: "{{ inventory_hostname }}"
+      user: "root"
+      password: "{{ password }}"
+      host: "192.168.68.140"
+      name: "web01.internal"
+      validate_certs: False
+      delegate_to: localhost
 
 - name: Create a web02.internal node             //Creating Node2
-    bigip_node:
-        server: "{{ inventory_hostname }}"
-        user: "root"
-        password: "{{ password }}"
-        host: "192.168.68.141"
-        name: "web02.internal"
-        validate_certs: False
-    delegate_to: localhost
+  bigip_node:
+      server: "{{ inventory_hostname }}"
+      user: "root"
+      password: "{{ password }}"
+      host: "192.168.68.141"
+      name: "web02.internal"
+      validate_certs: False
+  delegate_to: localhost
 
 - name: Create a web-pool                        //Creating a pool
-    bigip_pool:
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        lb_method: "ratio_member"
-        monitors: http
-        name: "web-pool"
-        validate_certs: False
-    delegate_to: localhost
+  bigip_pool:
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      lb_method: "ratio_member"
+      monitors: http
+      name: "web-pool"
+      validate_certs: False
+  delegate_to: localhost
 
 - name: Add http node to web-pool                //Assigning members to a pool
-    bigip_pool_member:
-        description: "HTTP Webserver-1"
-        host: "{{ item.host }}"
-        name: "{{ item.name }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        pool: "web-pool"
-        port: "80"
-        server: "{{ inventory_hostname }}"
-        validate_certs: False
-    with_items:
-        - host: "192.168.168.140"
-          name: "web01.internal"
-        - host: "192.168.68.141"
-          name: "web02.internal"
-    delegate_to: localhost
+  bigip_pool_member:
+      description: "HTTP Webserver-1"
+      host: "{{ item.host }}"
+      name: "{{ item.name }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      pool: "web-pool"
+      port: "80"
+      server: "{{ inventory_hostname }}"
+      validate_certs: False
+  with_items:
+      - host: "192.168.168.140"
+        name: "web01.internal"
+      - host: "192.168.68.141"
+        name: "web02.internal"
+  delegate_to: localhost
 
 - name: Create a virtual server                  //Create a HTTPS Virtual Server
-    bigip_virtual_server:
-        description: "Secure web application"
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        name: "https_vs"
-        destination: "10.10.20.120"
-        port: 443
-        snat: "Automap"
-        all_profiles:
-            - http
-            - clientssl
-        pool: "web-pool"
-        validate_certs: False
-    delegate_to: localhost
+  bigip_virtual_server:
+      description: "Secure web application"
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      name: "https_vs"
+      destination: "10.10.20.120"
+      port: 443
+      snat: "Automap"
+      all_profiles:
+          - http
+          - clientssl
+      pool: "web-pool"
+      validate_certs: False
+  delegate_to: localhost
 
 - name: Create a redirect virtual server        //Create a redirect virtual server
-    bigip_virtual_server:
-        description: "Redirect Virtual server"
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        name: "http_redirect"
-        destination: "10.10.20.120"
-        validate_certs: False
-        port: 80
-        all_profiles:
-            - http
-        all_rules:                               //Attach an iRule to the Virtual server
-            - _sys_https_redirect
-    delegate_to: localhost
+  bigip_virtual_server:
+      description: "Redirect Virtual server"
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      name: "http_redirect"
+      destination: "10.10.20.120"
+      validate_certs: False
+      port: 80
+      all_profiles:
+          - http
+      all_rules:                               //Attach an iRule to the Virtual server
+          - _sys_https_redirect
+  delegate_to: localhost
