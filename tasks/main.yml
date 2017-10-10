@@ -91,6 +91,18 @@
         name: "web02.internal"
   delegate_to: localhost
 
+- name: Add the SNAT pool 'my-snat-pool'        //Create SNAT pool and assign members to the pool
+  bigip_snat_pool:
+      server: "lb.mydomain.com"
+      user: "admin"
+      password: "secret"
+      name: "my-snat-pool"
+      state: "present"
+      members:
+          - 1.1.1.1
+          - 2.2.2.2
+  delegate_to: localhost
+
 - name: Create a virtual server                  //Create a HTTPS Virtual Server
   bigip_virtual_server:
       description: "Secure web application"
