@@ -10,10 +10,10 @@
       tagged_interface: "{{ item.interface }}"
   with_items:
       - name: 'External'
-        tag: '10'
+        tag: '12'
         interface: '1.1'
       - name: 'Internal'
-        tag: '11'
+        tag: '13'
         interface: '1.2'
   delegate_to: localhost
 
