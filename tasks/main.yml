@@ -93,9 +93,9 @@
 
 - name: Add the SNAT pool 'my-snat-pool'        //Create SNAT pool and assign members to the pool
   bigip_snat_pool:
-      server: "lb.mydomain.com"
-      user: "admin"
-      password: "secret"
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
       name: "my-snat-pool"
       state: "present"
       members:
