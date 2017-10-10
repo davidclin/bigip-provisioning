@@ -16,6 +16,8 @@
         tag: '13'
         interface: '1.2'
   delegate_to: localhost
+  tags: 
+      - vlans
 
 - name: Configure SELF-IPs on the BIG-IP
   bigip_selfip:
@@ -40,6 +42,8 @@
         vlan: 'Internal'
         allow_service: 'default'
   delegate_to: localhost
+  tags: 
+      - selfips
 
 - name: Create a web01.internal node             //Creating Node1
   bigip_node:
@@ -50,6 +54,8 @@
       name: "web01.internal"
       validate_certs: False
   delegate_to: localhost
+  tags:
+      - nodes
 
 - name: Create a web02.internal node             //Creating Node2
   bigip_node:
@@ -60,6 +66,8 @@
       name: "web02.internal"
       validate_certs: False
   delegate_to: localhost
+  tags:
+      - nodes
 
 - name: Create a web-pool                        //Creating a pool
   bigip_pool:
@@ -72,6 +80,8 @@
       name: "web-pool"
       validate_certs: False
   delegate_to: localhost
+  tags:
+      - pool
 
 - name: Add http node to web-pool                //Assigning members to a pool
   bigip_pool_member:
@@ -90,6 +100,8 @@
       - host: "172.16.100.237"
         name: "web02.internal"
   delegate_to: localhost
+  tags:
+      - addtopool
 
 - name: Add the SNAT pool 'my-snat-pool'        //Create SNAT pool and assign members to the pool
   bigip_snat_pool:
@@ -102,6 +114,8 @@
           - 1.1.1.1
           - 2.2.2.2
   delegate_to: localhost
+  tags:
+      - snatpool
 
 - name: Create a virtual server                  //Create a HTTPS Virtual Server
   bigip_virtual_server:
@@ -119,3 +133,5 @@
       pool: "web-pool"
       validate_certs: False
   delegate_to: localhost
+  tags: 
+      - virtualserver
