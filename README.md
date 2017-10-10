@@ -4,11 +4,13 @@
 # bigip-provisioning
 Ansible role to automate provisioning tasks on a BIG-IP. 
 The role will perform the following
+* Configure VLANs
+* Configure Self-IPs
 * Create nodes 
 * Create pool
-* Assign members to pool
+* Create SNAT pool
+* Assign members to pool and SNAT pool
 * Create a HTTPS virtual server
-* Create a redirect virtual server
 
 ## Requirements
 * This role requires Ansible 2.4
@@ -22,11 +24,8 @@ The role will perform the following
 The variables that can be passed to this role and a brief description about them are as follows.
 
 ```
-username: admin                                     //BIG-IP username
-password: !Cisco123                                 //BIG-IP password
-
-
-
+username: <username>                                //BIG-IP username
+password: <password>                                //BIG-IP password
 
 ntp_servers:                                        //NTP servers configured on BIG-IP
  - '172.27.1.1'
