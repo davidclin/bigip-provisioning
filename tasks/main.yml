@@ -44,19 +44,19 @@
 - name: Create a web01.internal node             //Creating Node1
   bigip_node:
       server: "{{ inventory_hostname }}"
-      user: "root"
+      user: "{{ username }}"
       password: "{{ password }}"
-      host: "192.168.68.140"
+      host: "172.16.100.236"
       name: "web01.internal"
       validate_certs: False
-      delegate_to: localhost
+  delegate_to: localhost
 
 - name: Create a web02.internal node             //Creating Node2
   bigip_node:
       server: "{{ inventory_hostname }}"
-      user: "root"
+      user: "{{ username }}"
       password: "{{ password }}"
-      host: "192.168.68.141"
+      host: "172.16.100.237"
       name: "web02.internal"
       validate_certs: False
   delegate_to: localhost
@@ -66,8 +66,9 @@
       server: "{{ inventory_hostname }}"
       user: "{{ username }}"
       password: "{{ password }}"
-      lb_method: "ratio_member"
+      lb_method: "round-robin"
       monitors: http
+      monitor_type: "and_list"
       name: "web-pool"
       validate_certs: False
   delegate_to: localhost
@@ -84,9 +85,9 @@
       server: "{{ inventory_hostname }}"
       validate_certs: False
   with_items:
-      - host: "192.168.168.140"
+      - host: "172.16.100.236"
         name: "web01.internal"
-      - host: "192.168.68.141"
+      - host: "172.16.100.237"
         name: "web02.internal"
   delegate_to: localhost
 
@@ -105,20 +106,4 @@
           - clientssl
       pool: "web-pool"
       validate_certs: False
-  delegate_to: localhost
-
-- name: Create a redirect virtual server        //Create a redirect virtual server
-  bigip_virtual_server:
-      description: "Redirect Virtual server"
-      server: "{{ inventory_hostname }}"
-      user: "{{ username }}"
-      password: "{{ password }}"
-      name: "http_redirect"
-      destination: "10.10.20.120"
-      validate_certs: False
-      port: 80
-      all_profiles:
-          - http
-      all_rules:                               //Attach an iRule to the Virtual server
-          - _sys_https_redirect
   delegate_to: localhost
