@@ -18,7 +18,7 @@ Ansible role to automate provisioning tasks on a BIG-IP.
 The role will perform the following
 * Configure VLANs                        (tags: vlans)
 * Configure Self-IPs                     (tags: selfips)
-* Create nodes (with health monitors)    (tags: nodes)
+* Create nodes with health monitors      (tags: nodes)
 * Create pool                            (tags: pool)
 * Create SNAT pool                       (tags: snatpool)
 * Assign members to pool and SNAT pool   (tags: addtopool)
