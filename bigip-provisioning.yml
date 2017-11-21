@@ -1,0 +1,7 @@
+---
+
+- hosts: bigips
+  gather_facts: false
+  roles:
+  - { role: bigip-provisioning}
+
